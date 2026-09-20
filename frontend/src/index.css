@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  @apply bg-slate-50 text-slate-900 antialiased;
+}
+
+@keyframes mailbox-drop {
+  0% {
+    transform: translate(-50%, -20px) scale(1);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  55% {
+    transform: translate(-50%, 6px) scale(0.85);
+    opacity: 1;
+  }
+  63% {
+    transform: translate(-50%, 6px) scale(0.55);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -20px) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes mailbox-pulse {
+  0%,
+  58% {
+    transform: scale(1);
+  }
+  65% {
+    transform: scale(1.15);
+  }
+  73%,
+  100% {
+    transform: scale(1);
+  }
+}
+
+.mailbox-envelope {
+  animation: mailbox-drop 1.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.mailbox-base {
+  animation: mailbox-pulse 1.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mailbox-envelope,
+  .mailbox-base {
+    animation: none;
+  }
+}

@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+*.db
+*.db-journal
+/backend/bin/
+/frontend/node_modules/
+/frontend/dist/
+.DS_Store
+*.swp
+*.swo
