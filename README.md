@@ -45,6 +45,24 @@ React/Vite/TS/Tailwind frontend + Gemini (`google.golang.org/genai`).
 - **Streaming**: all three pipeline endpoints stream real staged progress
   over SSE — not a fake spinner.
 
+## Decisions
+
+- **Deterministic filter vs. RAG, for candidate retrieval.** Went with a
+  plain deterministic filter, not RAG. The dataset is small (48 profiles, fits
+  fully in memory/context), and the LLM is already used up front to parse the
+  free-text query into structured filters — so precise, exact-match filtering
+  is cheap and correct with no retrieval layer needed. RAG earns its cost at
+  a larger dataset size, where an in-memory filter can't hold/scan everything
+  and semantic retrieval is needed to narrow the pool before scoring.
+- **Versioning vs. a single chat session with state.** Went with explicit
+  versions (filters + rubric + results snapshotted per round), not a chat
+  thread carrying state implicitly. A chat-only approach loses structured
+  filter/profile data inside free-text turns — recovering "what were the
+  filters after round 2" means re-parsing chat history. Versioning stores
+  that state directly and keyed for lookup, so past filters/rubric/results
+  are a single row read, not a replay — far easier and more reliable to
+  access than reconstructing state from a chat log.
+
 ## Running it
 
 ### Docker (one command)
